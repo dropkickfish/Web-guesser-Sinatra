@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'sinatra'
 require 'sinatra/reloader'
 
+secret = rand(100)
+
 get '/' do
-  "Hello, World!/n"
-  "The secret number is #{rand(100)}"
+  "The SECRET NUMBER is #{secret}"
 end
