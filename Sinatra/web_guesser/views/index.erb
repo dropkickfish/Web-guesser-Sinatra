@@ -1,6 +1,18 @@
 <html>
   <head>
   <style>
+      h1 {
+        text-align:center;
+        font-family: Arial;
+      }
+      p {
+        text-align:center;
+        font-family: Arial;
+      }
+      form {
+        text-align:center;
+        font-family: Arial;
+      }
       body {
         background: <%= "#{colour}" %>;
       }
@@ -8,6 +20,14 @@
   </head>
 
   <body>
+  <h1>
+  Web Guesser with Sinatra
+  </h1>
+   <p></p>
+    <p>
+    You have 5 tries to guess a number between 1 and 100. If you're stuck, try appending the URL with &cheat=true
+    </p>
+  
     <form>
         <input type='text' name='guess' />
         <input type='submit' value='Guess!' />
@@ -18,6 +38,10 @@
   
     <p>
        You have <%= guesses %> guesses remaining
+    </p>
+
+    <p>
+      <%= cheatmessage %>
     </p>
   </body>
 </html>

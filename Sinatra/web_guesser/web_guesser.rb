@@ -4,61 +4,70 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 
 set :number, rand(100).to_i
-$guesses = 11
-
+@@guesses = 6
+@@colour = "white"
 
 get '/' do
-
+  cheat = params["cheat"]
   guess = params["guess"]
   message = check_guess(guess)
-  $guesses -= 1
-  erb :index, :locals => {:number => @@number, :message => message, :guesses => $guesses, :colour => @@colour }
+  cheatmessage = cheatmode(cheat)
+  @@guesses -= 1
+  erb :index, :locals => { :message => message, :cheatmessage => cheatmessage, :guesses => @@guesses, :colour => @@colour }
 end
 
 def reset 
   
   settings.number = rand(100).to_i
-  $guesses = 11
+  @@guesses = 6
+end
+
+def cheatmode(cheat)
+  if cheat == "true"
+    "The number is #{settings.number}"
+  else
+    ""
+  end
 end
 
 def check_guess(guess)
   
-  if $guesses < 2
+  if @@guesses < 2
     reset
-    colour = "maroon"
+    @@colour = "maroon"
     "Game over, resetting number. Guess the new number"
     
    
   else
 
     if guess.nil?
-      message = ""
-
+      ""
+      
     elsif guess.to_i == settings.number
       reset
       @@colour = "green"
-      message = "You won, resetting game. Guess the new number"
+      "You won, resetting game. Guess the new number"
       
 
     elsif guess.to_i > settings.number
       if guess.to_i > settings.number + 5
         @@colour = "red"
-        message = "Too damn high"
+        "Too damn high"
         
       else
         @@colour = "pink"
-        message = "Too high"
+        "Too high"
         
       end
 
     elsif guess.to_i < settings.number
       if guess.to_i < settings.number - 5
         @@colour = "red"
-        message = "Too damn low"
+        "Too damn low"
         
       else
         @@colour = "pink"
-        message = "Too low"
+        "Too low"
          
       end
     end
